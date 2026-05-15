@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mediovate | Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; }
+        .bg-overlay { background: rgba(0, 0, 0, 0.65); }
+        /* Custom color matching the design button */
+        .bg-mediovate { background-color: #AF855B; }
+        .text-mediovate { color: #AF855B; }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <section id="hero" class="relative flex h-screen w-screen flex-col items-center justify-center md:justify-between overflow-hidden px-4 md:pb-[5rem] xl:pb-[10rem] md:pt-[5rem]">
+        <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+            <img src="/img/bg.jpg" alt="" class="absolute inset-0 h-full w-full">
+        </div> 
+
+        <img id="logo" src="/img/logo.png" alt="Mediovate Logo" class="relative  z-10 mb-12 w-full max-w-[403px] opacity-0">
+       <!-- Mobile BG Image for Mobile -->
+       <img src="/img/bg-mobile.jpg" alt="" class="absolute max-md:block hidden inset-0 h-full w-full object-cover">
+        <div class="relative z-10 flex w-full flex-col items-center gap-4 text-center">
+            
+           
+
+            <div id="text-content" class="opacity-0">
+                <p class="text-white text-[14px] md:text-[17px]  uppercase font-[700] ">
+                    We're currently updating our services to serve you better
+                </p>
+                <h1 class="text-white text-[27px] md:text-[50px] font-[800]">
+                    WE’LL BE BACK SOON!
+                </h1>
+            </div>
+
+            <form id="form-container" class="w-full max-w-[769px] space-y-4 opacity-0" novalidate>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <input id="lead-name" name="name" type="text" placeholder="Your Name *" required
+                        class="w-full px-4 py-3 bg-[#F3F4F6] rounded-[5px] text-[#222222] outline-none placeholder:text-[#222222] font-[400] text-[14px] focus:ring-2 focus:ring-[#AF855B]">
+                    
+                    <input id="lead-phone" name="phone" type="tel" placeholder="Phone Number *" required autocomplete="tel"
+                        class="w-full px-4 py-3 bg-[#F3F4F6] rounded-[5px] text-[#222222] outline-none placeholder:text-[#222222] font-[400] text-[14px] focus:ring-2 focus:ring-[#AF855B]">
+                    
+                    <input id="lead-email" name="email" type="email" placeholder="Email *" required autocomplete="email"
+                        class="w-full px-4 py-3 bg-[#F3F4F6] rounded-[5px] text-[#222222] outline-none placeholder:text-[#222222] font-[400] text-[14px] focus:ring-2 focus:ring-[#AF855B]">
+                </div>
+
+                <button type="submit" id="submit-btn"
+                    class="relative inline-flex min-h-[48px] items-center justify-center bg-mediovate hover:bg-[#A87C4F] disabled:pointer-events-none disabled:opacity-70 transition-colors text-white font-[600] py-3 px-12 rounded-md uppercase w-full text-[16px] mt-4">
+                    <span id="submit-btn-spinner" class="absolute inset-0 hidden items-center justify-center" aria-hidden="true">
+                        <svg class="h-6 w-6 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </span>
+                    <span id="submit-btn-label">Submit</span>
+                </button>
+            </form>
+        </div> 
+    </section>
+
+    <!-- Thank you -->
+    <div id="modal-thankyou"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/65 p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-thankyou-title">
+        <div class="relative w-full max-w-md rounded-lg bg-[#F3F4F6] p-8 text-center shadow-xl" data-modal-panel>
+            <h2 id="modal-thankyou-title" class="text-[22px] font-[800] uppercase text-[#222222]">
+                Thank you!
+            </h2>
+            <p class="mt-4 text-[14px] font-[400] leading-relaxed text-[#444444]">
+                We received your details. We'll be in touch soon.
+            </p>
+            <button type="button" id="modal-thankyou-close"
+                class="mt-8 w-full rounded-md bg-mediovate py-3 text-[14px] font-[600] uppercase text-white transition-colors hover:bg-[#A87C4F] focus:outline-none focus:ring-2 focus:ring-[#AF855B]">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Error -->
+    <div id="modal-error"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/65 p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-error-title">
+        <div class="relative w-full max-w-md rounded-lg bg-[#F3F4F6] p-8 text-center shadow-xl" data-modal-panel>
+            <h2 id="modal-error-title" class="text-[22px] font-[800] uppercase text-[#B91C1C]">
+                Something went wrong
+            </h2>
+            <p id="modal-error-text" class="mt-4 text-[14px] font-[400] leading-relaxed text-[#444444]"></p>
+            <button type="button" id="modal-error-close"
+                class="mt-8 w-full rounded-md bg-[#444444] py-3 text-[14px] font-[600] uppercase text-white transition-colors hover:bg-[#222222] focus:outline-none focus:ring-2 focus:ring-[#AF855B]">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const GOOGLE_SCRIPT_WEBAPP_URL =
+            "https://script.google.com/macros/s/AKfycbzeUhLC5yj1EyJ4xYmxfwvk4PRF1XGX9DTvOmHGvcZiIZKICVmo9_CuADaK4gwxw4xv4w/exec";
+
+        const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const PHONE_REGEX = /^\+?[\d\s().-]{10,24}$/;
+
+        function isValidEmail(email) {
+            return typeof email === "string" && EMAIL_REGEX.test(email.trim());
+        }
+
+        function isValidPhone(phone) {
+            if (typeof phone !== "string" || !PHONE_REGEX.test(phone.trim())) return false;
+            const digits = phone.replace(/\D/g, "");
+            return digits.length >= 10 && digits.length <= 15;
+        }
+
+        function setSubmitLoading(isLoading) {
+            const btn = document.getElementById("submit-btn");
+            const spinner = document.getElementById("submit-btn-spinner");
+            const label = document.getElementById("submit-btn-label");
+            if (!btn || !spinner || !label) return;
+            btn.disabled = isLoading;
+            btn.setAttribute("aria-busy", isLoading ? "true" : "false");
+            if (isLoading) {
+                spinner.classList.remove("hidden");
+                spinner.classList.add("flex");
+                label.classList.add("invisible");
+            } else {
+                spinner.classList.add("hidden");
+                spinner.classList.remove("flex");
+                label.classList.remove("invisible");
+            }
+        }
+
+        let feedbackModalEscapeHandler = null;
+
+        function openFeedbackModal(modalEl) {
+            if (!modalEl) return;
+            modalEl.classList.remove("hidden");
+            modalEl.classList.add("flex");
+            document.body.classList.add("overflow-hidden");
+            window.requestAnimationFrame(() => {
+                modalEl.querySelector("button[type='button']")?.focus?.();
+            });
+            if (!feedbackModalEscapeHandler) {
+                feedbackModalEscapeHandler = (ev) => {
+                    if (ev.key !== "Escape") return;
+                    const open = document.querySelector(
+                        "#modal-thankyou.flex, #modal-error.flex",
+                    );
+                    if (open) closeFeedbackModal(open);
+                };
+                document.addEventListener("keydown", feedbackModalEscapeHandler);
+            }
+        }
+
+        function closeFeedbackModal(modalEl) {
+            if (!modalEl) return;
+            modalEl.classList.add("hidden");
+            modalEl.classList.remove("flex");
+            const thankyouEl = document.getElementById("modal-thankyou");
+            const errorEl = document.getElementById("modal-error");
+            const noFeedbackOpen =
+                !thankyouEl?.classList.contains("flex") && !errorEl?.classList.contains("flex");
+            if (noFeedbackOpen) document.body.classList.remove("overflow-hidden");
+        }
+
+        function showThankYouModal() {
+            openFeedbackModal(document.getElementById("modal-thankyou"));
+        }
+
+        function showErrorModal(message) {
+            const textEl = document.getElementById("modal-error-text");
+            const modalEl = document.getElementById("modal-error");
+            if (textEl) textEl.textContent = message;
+            openFeedbackModal(modalEl);
+        }
+
+        const submitLead = async (name, email, phone) => {
+            const now = new Date();
+            const leadData = {
+                name,
+                email,
+                phone,
+                message: "No Message",
+                date: now.toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                }),
+                time: now.toLocaleTimeString(undefined, {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                }),
+            };
+
+            const response = await fetch(GOOGLE_SCRIPT_WEBAPP_URL, {
+                method: "POST",
+                body: JSON.stringify(leadData),
+            });
+
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch {
+                throw new Error("Invalid response from server");
+            }
+            console.log(data);
+            return data;
+        };
+
+        // GSAP First Impression Animation
+        window.addEventListener("DOMContentLoaded", () => {
+            const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+            tl.to("#logo", { opacity: 1, y: 0, duration: 1.2, startAt: { y: -20 } })
+                .to("#text-content", { opacity: 1, y: 0, duration: 1, startAt: { y: 20 } }, "-=0.8")
+                .to("#form-container", { opacity: 1, scale: 1, duration: 1, startAt: { scale: 0.95 } }, "-=0.6");
+
+            const modalThankyou = document.getElementById("modal-thankyou");
+            const modalError = document.getElementById("modal-error");
+
+            function bindModalDismiss(modalEl) {
+                if (!modalEl) return;
+                const panel = modalEl.querySelector("[data-modal-panel]");
+                const closeId =
+                    modalEl.id === "modal-thankyou" ? "modal-thankyou-close" : "modal-error-close";
+                document.getElementById(closeId)?.addEventListener("click", () => {
+                    closeFeedbackModal(modalEl);
+                });
+                modalEl.addEventListener("click", (ev) => {
+                    if (!panel || ev.target === modalEl) closeFeedbackModal(modalEl);
+                });
+                panel?.addEventListener("click", (ev) => ev.stopPropagation());
+            }
+            bindModalDismiss(modalThankyou);
+            bindModalDismiss(modalError);
+
+            const form = document.getElementById("form-container");
+            if (!form) return;
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById("lead-name")?.value?.trim() ?? "";
+                const email = document.getElementById("lead-email")?.value?.trim() ?? "";
+                const phone = document.getElementById("lead-phone")?.value?.trim() ?? "";
+
+                if (!name) {
+                    showErrorModal("Please enter your name.");
+                    return;
+                }
+                if (!isValidEmail(email)) {
+                    showErrorModal("Please enter a valid email address.");
+                    return;
+                }
+                if (!isValidPhone(phone)) {
+                    showErrorModal("Please enter a valid phone number (10–15 digits).");
+                    return;
+                }
+
+                setSubmitLoading(true);
+                try {
+                    const data = await submitLead(name, email, phone);
+                    if (data && data.success) {
+                        showThankYouModal();
+                        form.reset();
+                    } else {
+                        showErrorModal(
+                            "We could not submit your details. Please try again in a moment.",
+                        );
+                    }
+                } catch (error) {
+                    console.log(error);
+                    showErrorModal(
+                        "We could not reach the server or the response was invalid. Please try again.",
+                    );
+                } finally {
+                    setSubmitLoading(false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
